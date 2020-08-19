@@ -1,4 +1,4 @@
-**DISCORD TOKEN GRABBER**
+**DISCORD NITRO GENERATOR**
 
 Code in `NodeJS` using framework's `Axios` & `Discord API`
 

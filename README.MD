@@ -6,7 +6,7 @@ Code in `NodeJS` using framework's `Axios` & `Discord API`
 
 `1º Install Node-JS`
 
-`2º After installing NodeJS, download the files and install the packages | npm i axios axios`
+`2º After installing NodeJS, download the files and execute install.bat`
 
 `3º Execute start.bat`
 

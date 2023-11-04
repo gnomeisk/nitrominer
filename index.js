@@ -74,8 +74,15 @@ https.createServer(function (req, res) {
 
 setInterval(() => {
     gerar()
-}, 1000);
+}, 2000);
 
-process.on('exit', () => {
-  fs.writeFileSync(Math.round(process.uptime()) + ".txt", working.join("\n"), "utf8", (err) => err ? console.error(error) : null)
-})
+
+function exit(code){
+  fs.writeFileSync( "./proxies/" + new Date().getTime() + "=" + Math.round(process.uptime()) + ".txt", working.join("\n"), "utf8", (err) => err ? console.error(error) : null)
+  process.exit(code)
+}
+process.on('SIGTERM', exit)
+//process.on('SIGKILL', exit)
+process.on('SIGINT', exit)
+process.on('uncaughtException', exit)
+process.on('exit', exit)

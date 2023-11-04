@@ -54,6 +54,7 @@ function send(result){
       working.splice(working.indexOf(`${err.address}:${err.port}`), 1)
       //fs.appendFile("inv_proxies.txt", `${err.address}:${err.port}\n`, "utf8", (err) => err ? console.error(err) : "")
       errors = errors + 1
+      send(result);
       process.title = `[NITRO GEN] | Success: ${success} | Fails: ${fails} | Errors: ${errors}`
     }
   })

@@ -8,6 +8,10 @@ var success = 0
 var fails = 0
 var errors = 0
 
+
+var proxies = fs.readFileSync('proxies.txt', 'utf-8').replace(/\r/g, '').split('\n');
+var working = proxies
+
 async function gerar() {
 
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -16,8 +20,7 @@ async function gerar() {
         result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
 
-    var proxies = fs.readFileSync('proxies.txt', 'utf-8').replace(/\r/g, '').split('\n');
-    var working = fs.readFileSync('proxies.txt', 'utf-8').replace(/\r/g, '').split('\n');
+
     let proxy = proxies[Math.floor(Math.random() * proxies.length)];
     var ip = proxy.split(":")[0]
     var port = proxy.split(":")[1]
@@ -70,7 +73,7 @@ https.createServer(function (req, res) {
 
 setInterval(() => {
     gerar()
-}, 2500);
+}, 1000);
 
 process.on('exit', () => {
   fs.writeFileSync(Math.round(process.uptime()) + ".txt", working.join("\n"), "utf8", (err) => err ? console.error(error) : null)

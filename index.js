@@ -11,18 +11,16 @@ var errors = 0
 
 const proxies = fs.readFileSync('proxies.txt', 'utf-8').replace(/\r/g, '').split('\n');
 let working = proxies
-async function gerar() {
-
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var result = ""
-  for (var a = 0; a < 16; a++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
 
 
+
+
+
+
+function send(result){
   let proxy = proxies[Math.floor(Math.random() * proxies.length)];
-  var ip = proxy.split(":")[0]
-  var port = proxy.split(":")[1]
+  let ip = proxy.split(":")[0]
+  let port = proxy.split(":")[1]
 
   axios.get(`https://discordapp.com/api/v6/entitlements/gift-codes/${result}`, { proxy: { host: ip, port: port } }).then(function(response) {
     if (response.data.code) {
@@ -37,6 +35,7 @@ async function gerar() {
       if (err.response.status === 429) {
         console.log(colors.yellow(`[RATE LIMITED] https://discord.gift/${result} | Proxy: ${ip}:${port} | ${err.response.status}`))
         errors = errors + 1
+        send(result)
       }
       else if (err.response.status === 404) {
         fs.appendFile(`nitro_fail.txt`, `https://discord.gift/${result} - ${err.response.status}\n`, function(err) {
@@ -58,6 +57,20 @@ async function gerar() {
       process.title = `[NITRO GEN] | Success: ${success} | Fails: ${fails} | Errors: ${errors}`
     }
   })
+}
+
+
+
+async function gerar() {
+
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var result = ""
+  for (var a = 0; a < 16; a++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+
+
+  send(result)
 
 }
 
@@ -77,8 +90,8 @@ setInterval(() => {
 
 
 function exit(code) {
-  fs.writeFileSync("./proxies/" + new Date().getTime() + "=" + Math.round(process.uptime()) + ".txt", working.join("\n"), "utf8", (err) => err ? console.error(error) : null)
-  //fs.writeFileSync("proxies.txt", working.join("\n"), "utf8", (err) => err ? console.error(error) : null)
+  //fs.writeFileSync("./proxies/" + new Date().getTime() + "=" + Math.round(process.uptime()) + ".txt", working.join("\n"), "utf8", (err) => err ? console.error(error) : null)
+  fs.writeFileSync("proxies.txt", working.join("\n"), "utf8", (err) => err ? console.error(error) : null)
   process.exit(code)
 }
 process.on('SIGTERM', exit)

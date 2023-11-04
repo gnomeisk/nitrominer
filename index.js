@@ -53,7 +53,7 @@ async function gerar() {
         } else {
           if(err.code !== "ECONNREFUSED") return;
             console.log(colors.bgRed(err.code + " with the proxy " + err.address + ":" + err.port))
-            working.slice(working.indexOf(`${err.address}:${err.port}`), 1)
+            working.splice(working.indexOf(`${err.address}:${err.port}`), 1)
           fs.appendFile("inv_proxies.txt", `${err.address}:${err.port}\n`, "utf8", (err) => err ? console.error(err) : "")
             errors = errors + 1
             process.title = `[NITRO GEN] | Success: ${success} | Fails: ${fails} | Errors: ${errors}`

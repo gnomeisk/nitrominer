@@ -9,8 +9,8 @@ var fails = 0
 var errors = 0
 
 
-var proxies = fs.readFileSync('proxies.txt', 'utf-8').replace(/\r/g, '').split('\n');
-var working = proxies
+const proxies = fs.readFileSync('proxies.txt', 'utf-8').replace(/\r/g, '').split('\n');
+let working = proxies
 
 async function gerar() {
 
@@ -51,6 +51,7 @@ async function gerar() {
                 errors = errors + 1
             }
         } else {
+          if(err.code !== "ECONNREFUSED") return;
             console.log(colors.bgRed(err.code + " with the proxy " + err.address + ":" + err.port))
             working.slice(working.indexOf(`${err.address}:${err.port}`), 1)
           fs.appendFile("inv_proxies.txt", `${err.address}:${err.port}\n`, "utf8", (err) => err ? console.error(err) : "")

@@ -50,11 +50,11 @@ function send(result){
       }
     } else {
       if (err.code !== "ECONNREFUSED") return;
-      console.log(colors.bgRed(err.code + " with the proxy " + err.address + ":" + err.port))
+      console.log(colors.blue(`[TIMEOUT] https://discord.gift/${result} | Proxy: ${err.address}:${err.port} | 503`))
       working.splice(working.indexOf(`${err.address}:${err.port}`), 1)
       //fs.appendFile("inv_proxies.txt", `${err.address}:${err.port}\n`, "utf8", (err) => err ? console.error(err) : "")
       errors = errors + 1
-      send(result);
+      send(result)
       process.title = `[NITRO GEN] | Success: ${success} | Fails: ${fails} | Errors: ${errors}`
     }
   })
